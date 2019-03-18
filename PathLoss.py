@@ -15,7 +15,7 @@ class RMa_LOS:
         if self.d2d>=10 and self.d2d <= self.dbp:
             return (20*np.log10(40*np.pi*self.d3d*self.fc/3) + \
                            min(0.03*self.h**1.72,10)*np.log10(self.d3d) - \
-                           min(0.044*self.h**1.72,14.77) + 0.002*np.log10(self.h)*self.d3d) +\
+                           min((0.044*self.h**1.72),14.77) + 0.002*np.log10(self.h)*self.d3d) +\
                            self.sf*np.random.randn(1) 
                 
         
@@ -218,6 +218,7 @@ class InH_NLOS:
         self.d3d = np.sqrt((hbs[0] - hut[0])**2 + (hbs[1] - hut[1])**2 + (hbs[2] - hut[2])**2)
         
     def calcPathloss(self):
-        self.PL_InH_LOS = 32.4 + 17.3*np.log10(self.d3d) + 20*np.log10(self.fc)
         self.PL_InH_NLOS = 38.3*np.log10(self.d3d) + 17.3 + 24.9*np.log10(self.fc)
-        return  max(self.PL_InH_LOS,self.PL_InH_NLOS) + self.sf*np.random.randn(1)
+        self.PL_InH_LOS = 32.4 + 17.3*np.log10(self.d3d) + 20*np.log10(self.fc)
+        return max(self.PL_InH_LOS,self.PL_InH_NLOS) + self.sf*np.random.randn(1)
+            
